@@ -1,0 +1,31 @@
+﻿<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<div>
+    <label>Countries</label>
+    <input class="form-control" id="countriesID" onchange="myFunction()"/>
+</div>
+<script>
+    function myFunction() {
+    }
+    $("#countriesID").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetCountries","Home")',
+                dataType: "json",
+                data: {
+                    search: $("#countriesID").val()
+                },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.NameCountry, value: item.NameCountry };
+                    }));
+                },
+                error: function (xhr, status, error) {
+                    console.log("error");
+                }
+            })
+        }
+    });
+</script>

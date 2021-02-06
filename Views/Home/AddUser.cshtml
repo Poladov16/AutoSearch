@@ -1,0 +1,66 @@
+﻿@model IEnumerable<JsonButton.Models.Users>
+@{
+    ViewBag.Title = "AddUser";
+}
+
+<h2>AddUser</h2>
+
+<form>
+    <label for="FirstName">First name:</label>
+    <input type="text" id="FirstName" name="FirstName"><br><br>
+
+    <label for="LastName">Last name:</label>
+    <input type="text" id="LastName" name="LastName"><br><br>
+
+    <label for="Email">Email:</label>
+    <input type="email" id="Email" name="Email"><br><br>
+
+    <label for="Salary">Salary:</label>
+    <input type="number" id="Salary" name="Salary"><br><br>
+
+    <label for="Company">Company:</label>
+    <input type="text" id="Company" name="Company"><br><br>
+
+    <label for="Department">Department:</label>
+    <input type="text" id="Department" name="Department"><br><br>
+
+    <input onclick="AddUser" id="good" type="submit" value="Submit">
+</form>
+
+<script type="text/javascript">
+
+    function AddUser() {
+        alert("Hello");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddUser")',
+                data: JSON.stringify({
+                    year: $("#year option:selected").text()
+                }),
+                contentType: "application/json; charset=utf-8"
+            });
+    }
+    $('#btn_submit').click(function () {
+        var validationElements = ["FirstName", "LastName", "Email", "Salary", "Company", "Department"];
+        var valid = true;
+        $.each(validationElements, function (key, value) {
+            var inp = "#" + value;
+            if ($(inp).val() === "") {
+                valid = false;
+                $(inp).addClass("alert-border");
+            }
+
+        });
+        if (!valid) {
+            toastr.info("", "Please fill the required fields ",
+                {
+                    progressBar: true,
+                    closeButton: false,
+                    allowHtml: true,
+                    positionClass: "toast-top-right",
+                    hideDuration: "3000",
+                    extendedTimeOut: "3000",
+                    timeOut: "5000",
+                });
+    }
+</script>
